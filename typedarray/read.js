@@ -3,12 +3,14 @@ module.exports = {
   , readInt8:       read_int8
   , readUInt16LE:   read_uint16_le
   , readUInt32LE:   read_uint32_le
+  , readUInt64LE:   read_uint64_le
   , readInt16LE:    read_int16_le
   , readInt32LE:    read_int32_le
   , readFloatLE:    read_float_le
   , readDoubleLE:   read_double_le
   , readUInt16BE:   read_uint16_be
   , readUInt32BE:   read_uint32_be
+  , readUInt64BE:   read_uint64_be
   , readInt16BE:    read_int16_be
   , readInt32BE:    read_int32_be
   , readFloatBE:    read_float_be
@@ -34,6 +36,12 @@ function read_uint16_le(target, at) {
 function read_uint32_le(target, at) {
   var dv = map.get(target);
   return dv.getUint32(at + target.byteOffset, true)
+}
+
+function read_uint64_le(target, at) {
+  var dv = map.get(target);
+  return dv.getUint32(at + target.byteOffset, true) +
+         dv.getUint32(at + target.byteOffset + 4, true) * 0x100000000;
 }
 
 function read_int16_le(target, at) {
@@ -64,6 +72,12 @@ function read_uint16_be(target, at) {
 function read_uint32_be(target, at) {
   var dv = map.get(target);
   return dv.getUint32(at + target.byteOffset, false)
+}
+
+function read_uint64_be(target, at) {
+  var dv = map.get(target);
+  return dv.getUint32(at + target.byteOffset, false) * 0x100000000 +
+         dv.getUint32(at + target.byteOffset + 4, false)
 }
 
 function read_int16_be(target, at) {
